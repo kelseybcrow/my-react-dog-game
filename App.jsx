@@ -32,19 +32,35 @@ function onlyUniqueBreeds(pics) {
   return uniquePics.slice(0, Math.floor(uniquePics.length / 4) * 4)
 }
 
+// using a reducer function so that all the logic
+// for changing state is in one place. and industry
+// standard is using a switch statement
 function ourReducer(draft, action) {
+  // if the user's current points amount is higher
+  // than their highscore, then set their new
+  // highscore to be the points amount
   if (draft.points > draft.highScore) draft.highScore = draft.points
 
   switch (action.type) {
     case 'receiveHighScore':
+      // this case is for when the useEffect calls
+      // 'receiveHighscore'
       draft.highScore = action.value
+      // set the highscore to be the incoming value
+      // from the action
       if (!action.value) draft.highScore = 0
+      // if there is not an action value, set the
+      // highscore to be 0
       return
     case 'decreaseTime':
       if (draft.timeRemaining <= 0) {
+        // once the time remaining hits 0
         draft.playing = false
+        // set the playing status to false
       } else {
+        // if the time remaining still hasn't hit 0
         draft.timeRemaining--
+        // decrement the time remaining by 1
       }
       return
     case 'guessAttempt':
